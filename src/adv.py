@@ -1,4 +1,7 @@
+import textwrap
+
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -39,6 +42,10 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+player = Player('outside')
+room_name = room[player.current_room].name
+room_description = textwrap.fill(room[player.current_room].description)
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +56,11 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+while True:
+    print(f'\n{room_name}\n')
+    print(f'\n{room_description}\n')
+    print(f'\nYou can move by entering the first letter of the direction you wish go (eg. "n", "s", "e", "w"). Type "q" to quit\n')
+    action = input("What do you want to do? ")
+
+
