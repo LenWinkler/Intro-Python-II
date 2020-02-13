@@ -2,6 +2,7 @@ import textwrap
 
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -36,13 +37,32 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+sword = Item('sword', 'a rusty sword')
+torch = Item('torch', 'a torch')
+key = Item('key', 'a skeleton key')
+gold = Item('gold', 'a handful of gold coins')
+
+def add_item_to_room(which_room, item_name):
+    room[which_room].items.append(item_name)
+
+add_item_to_room('foyer', sword.description)
+add_item_to_room('foyer', torch.description)
+add_item_to_room('overlook', key.description)
+add_item_to_room('treasure', gold.description)
+
+# def visible_items(items):
+#     for item in items:
+#         print(item)
+
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
 
-player = Player('Hero', room['outside'])
+player = Player(input('What is your name? '), room['outside'])
+print(f'\nGood luck, {player.name}!')
 
 # Write a loop that:
 #
@@ -58,12 +78,16 @@ player = Player('Hero', room['outside'])
 while True:
     current_room = player.current_room
     room_name = current_room.name
-    print(f'\n\n{player.current_room}\n\n')
-    print(f'\nEnter the first letter of the direction you wish go (eg. "n", "s", "e", "w"). Type "q" to quit\n')
+    print(f'\n\n{current_room}\n\n')
+    if len(current_room.items) < 1:
+        print(f'\nLooking around the area, you see nothing of interest.\n')
+    else:
+        print(f'\nLooking around the area, you see {current_room.items}\n')
+    print(f'\nWhich way would you like to go? (eg. "n", "s", "e", "w"). Type "q" to quit\n')
     action = input("What do you want to do? ").lower()
 
     if action == 'q':
-        print('\nGoodbye!\n')
+        print(f'\nGoodbye, {player.name}!\n')
         exit()
     elif room_name == 'Outside Cave Entrance' and action == 'n':
         player.current_room = player.current_room.n_to
@@ -82,4 +106,4 @@ while True:
     elif room_name == 'Treasure Chamber' and action == 's':
         player.current_room = player.current_room.s_to
     else:
-        print('\n-------------------------------------------\n You are unable to move in that direction!\n-------------------------------------------\n')
+        print('\n-------------------------------------------\n You are unable to move in that direction!\n-------------------------------------------')
