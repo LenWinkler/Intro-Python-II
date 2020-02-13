@@ -2,6 +2,6 @@
 # currently.
 
 class Player:
-    def __init__(self, name, current_room):
+    def __init__(self, name, starting_room):
         self.name = name
-        self.current_room = current_room
+        self.current_room = starting_room
