@@ -42,10 +42,20 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
-player = Player('outside')
-room_name = room[player.current_room].name
-room_description = textwrap.fill(room[player.current_room].description)
+player = Player(room['outside'])
+# current_room = player.current_room
+room_name = player.current_room.name
+room_description = textwrap.fill(player.current_room.description)
 
+
+# current_room = room[player.current_room].n_to
+# print('current room', player.current_room)
+# print('current name', room_name)
+print('1', room['outside'])
+print('2', room['foyer'])
+print('3', room['overlook'])
+print('4', room['narrow'])
+print('5', room['treasure'])
 # Write a loop that:
 #
 # * Prints the current room name
@@ -61,6 +71,24 @@ while True:
     print(f'\n{room_name}\n')
     print(f'\n{room_description}\n')
     print(f'\nYou can move by entering the first letter of the direction you wish go (eg. "n", "s", "e", "w"). Type "q" to quit\n')
-    action = input("What do you want to do? ")
+    action = input("What do you want to do? ").lower()
 
-
+    if action == 'q':
+        print('\nGoodbye!\n')
+        exit()
+    elif room_name == 'Outside Cave Entrance' and action == 'n':
+        print('before', player.current_room)
+        setattr(player, 'current_room', player.current_room.n_to)
+        print('after', player.current_room)
+    elif room_name == 'foyer' and action == 'n':
+        player.current_room = room[player.current_room].n_to
+    elif room_name == 'foyer' and action == 'e':
+        player.current_room = room[player.current_room].e_to
+    elif room_name == 'narrow' and action == 'n':
+        player.current_room = room[player.current_room].n_to
+    elif room_name == 'narrow' and action == 'w':
+        player.current_room = room[player.current_room].w_to
+    elif room_name == 'treasure' and action == 's':
+        player.current_room = room[player.current_room].s_to
+    else:
+        print('\n-------------------------------------------\n You are unable to move in that direction!\n-------------------------------------------\n')
