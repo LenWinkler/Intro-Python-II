@@ -46,14 +46,19 @@ gold = Item('gold', 'a handful of gold coins')
 def add_item_to_room(which_room, item_name):
     room[which_room].items.append(item_name)
 
-add_item_to_room('foyer', sword.description)
-add_item_to_room('foyer', torch.description)
-add_item_to_room('overlook', key.description)
-add_item_to_room('treasure', gold.description)
+add_item_to_room('foyer', sword)
+add_item_to_room('foyer', torch)
+add_item_to_room('overlook', key)
+add_item_to_room('treasure', gold)
 
-# def visible_items(items):
-#     for item in items:
-#         print(item)
+def visible_items(items):
+    items_str = ""
+    for item in items:
+        if len(items_str) < 1:
+            items_str += item.description
+        else: items_str += f', {item.description}'
+    print('items_str', items_str)
+    return f'{items_str}'
 
 #
 # Main
@@ -82,7 +87,7 @@ while True:
     if len(current_room.items) < 1:
         print(f'\nLooking around the area, you see nothing of interest.\n')
     else:
-        print(f'\nLooking around the area, you see {current_room.items}\n')
+        print(f'\nLooking around the area, you see {visible_items(current_room.items)}\n')
     print(f'\nWhich way would you like to go? (eg. "n", "s", "e", "w"). Type "q" to quit\n')
     action = input("What do you want to do? ").lower()
 
