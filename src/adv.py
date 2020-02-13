@@ -42,7 +42,7 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
-player = Player(room['outside'])
+player = Player('Hero', room['outside'])
 # current_room = player.current_room
 room_name = player.current_room.name
 room_description = textwrap.fill(player.current_room.description)
@@ -70,7 +70,7 @@ print('5', room['treasure'])
 while True:
     print(f'\n{room_name}\n')
     print(f'\n{room_description}\n')
-    print(f'\nYou can move by entering the first letter of the direction you wish go (eg. "n", "s", "e", "w"). Type "q" to quit\n')
+    print(f'\nEnter the first letter of the direction you wish go (eg. "n", "s", "e", "w"). Type "q" to quit\n')
     action = input("What do you want to do? ").lower()
 
     if action == 'q':
