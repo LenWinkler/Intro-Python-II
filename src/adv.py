@@ -46,6 +46,14 @@ gold = Item('gold', 'a handful of gold coins')
 def add_item_to_room(which_room, item_name):
     room[which_room].items.append(item_name)
 
+def add_to_inventory(item_name):
+    if item_name in current_room.items:
+        player.inventory.append(item_name)
+        current_room.items.remove(item_name)
+        print(f'Added {item_name.description} to inventory')
+    else:
+        print('Can\'t find item by that name')
+
 add_item_to_room('foyer', sword)
 add_item_to_room('foyer', torch)
 add_item_to_room('overlook', key)
@@ -57,8 +65,8 @@ def visible_items(items):
         if len(items_str) < 1:
             items_str += item.description
         else: items_str += f', {item.description}'
-    print('items_str', items_str)
-    return f'{items_str}'
+    
+    return items_str
 
 #
 # Main
@@ -88,6 +96,7 @@ while True:
         print(f'\nLooking around the area, you see nothing of interest.\n')
     else:
         print(f'\nLooking around the area, you see {visible_items(current_room.items)}\n')
+
     print(f'\nWhich way would you like to go? (eg. "n", "s", "e", "w"). Type "q" to quit\n')
     action = input("What do you want to do? ").lower()
 
