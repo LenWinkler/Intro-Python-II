@@ -74,7 +74,8 @@ def visible_items(items):
     for item in items:
         if len(items_str) < 1:
             items_str += item.name
-        else: items_str += f', {item.name}'
+        else: 
+            items_str += f', {item.name}'
     
     return items_str
 
@@ -83,6 +84,16 @@ commands = ['"n", "s", "e", or "w" to move', '"i" or "inventory" to open invento
 def help():
     for cmd in commands:
         print(cmd)
+
+def display_inventory():
+    inventory_str = ""
+    for item in player.inventory:
+        if len(inventory_str) < 1:
+            inventory_str += item.name
+        else:
+            inventory_str += f', {item.name}'
+
+    return inventory_str
 
 #
 # Main
@@ -139,6 +150,12 @@ while True:
             drop_from_inventory(gold)
         else:
             print('Item not in inventory')
+    elif action == 'i' or action == 'inventory':
+        if len(player.inventory) >= 1:
+            print(f'\nInventory: {display_inventory()}\n')
+        else:
+            print('Inventory is empty')
+            
 
     elif action == 'q':
         print(f'\nGoodbye, {player.name}!\n')
