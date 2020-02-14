@@ -58,7 +58,7 @@ def drop_from_inventory(item_name):
     if item_name in player.inventory:
         player.current_room.items.append(item_name)
         player.inventory.remove(item_name)
-        print(f'Dropped {item_name.description} from inventory')
+        item_name.on_drop()
     else:
         print('Can\'t find item by that name')
 
@@ -127,6 +127,18 @@ while True:
             add_to_inventory(gold)
         else:
             print('Can\'t find item by that name')
+
+    elif len(split_action) > 1 and split_action[0] == 'drop':
+        if split_action[1] == 'sword' and sword in player.inventory:
+            drop_from_inventory(sword)
+        elif split_action[1] == 'torch' and torch in player.inventory:
+            drop_from_inventory(torch)
+        elif split_action[1] == 'key' and key in player.inventory:
+            drop_from_inventory(key)
+        elif split_action[1] == 'gold' and gold in player.inventory:
+            drop_from_inventory(gold)
+        else:
+            print('Item not in inventory')
 
     elif action == 'q':
         print(f'\nGoodbye, {player.name}!\n')
