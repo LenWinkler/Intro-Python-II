@@ -47,10 +47,18 @@ def add_item_to_room(which_room, item_name):
     room[which_room].items.append(item_name)
 
 def add_to_inventory(item_name):
-    if item_name in current_room.items:
+    if item_name in player.current_room.items:
         player.inventory.append(item_name)
-        current_room.items.remove(item_name)
+        player.current_room.items.remove(item_name)
         print(f'Added {item_name.description} to inventory')
+    else:
+        print('Can\'t find item by that name')
+
+def drop_from_inventory(item_name):
+    if item_name in player.inventory:
+        player.current_room.items.append(item_name)
+        player.inventory.remove(item_name)
+        print(f'Dropped {item_name.description} from inventory')
     else:
         print('Can\'t find item by that name')
 
@@ -67,6 +75,12 @@ def visible_items(items):
         else: items_str += f', {item.description}'
     
     return items_str
+
+commands = ['"n", "s", "e", or "w" to move', '"i" or "inventory" to open inventory', '"take <item>" to take an item', '"drop <item>" to drop an item', '"q" to quit']
+
+def help():
+    for cmd in commands:
+        print(cmd)
 
 #
 # Main
