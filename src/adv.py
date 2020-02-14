@@ -67,16 +67,18 @@ add_item_to_room('foyer', torch)
 add_item_to_room('overlook', key)
 add_item_to_room('treasure', gold)
 
+
+
 def visible_items(items):
     items_str = ""
     for item in items:
         if len(items_str) < 1:
-            items_str += item.description
-        else: items_str += f', {item.description}'
+            items_str += item.name
+        else: items_str += f', {item.name}'
     
     return items_str
 
-commands = ['"n", "s", "e", or "w" to move', '"i" or "inventory" to open inventory', '"take <item>" to take an item', '"drop <item>" to drop an item', '"q" to quit']
+commands = ['"n", "s", "e", or "w" to move', '"i" or "inventory" to open inventory', '"get <item>" or "take <item>" to pick up an item', '"drop <item>" to drop an item', '"q" to quit']
 
 def help():
     for cmd in commands:
@@ -105,18 +107,33 @@ print(f'\nGood luck, {player.name}!')
 while True:
     current_room = player.current_room
     room_name = current_room.name
-    print(f'\n\n{current_room}\n\n')
+    print(f'\n\n{current_room}\n')
     if len(current_room.items) < 1:
         print(f'\nLooking around the area, you see nothing of interest.\n')
     else:
-        print(f'\nLooking around the area, you see {visible_items(current_room.items)}\n')
+        print(f'\nLooking around the area, you see these items: {visible_items(current_room.items)}\n')
 
-    print(f'\nWhich way would you like to go? (eg. "n", "s", "e", "w"). Type "q" to quit\n')
-    action = input("What do you want to do? ").lower()
+    action = input('What do you want to do? (Type "help" for list of commands. Type "q" to quit) ').lower()
+    split_action = action.split(' ')
 
-    if action == 'q':
+    if len(split_action) > 1 and split_action[0] == 'get' or split_action[0] == 'take':
+        if split_action[1] == 'sword' and sword in current_room.items:
+            add_to_inventory(sword)
+        elif split_action[1] == 'torch' and torch in current_room.items:
+            add_to_inventory(torch)
+        elif split_action[1] == 'key' and key in current_room.items:
+            add_to_inventory(key)
+        elif split_action[1] == 'torch' and torch in current_room.items:
+            add_to_inventory(gold)
+        else:
+            print('Can\'t find item by that name')
+
+    elif action == 'q':
         print(f'\nGoodbye, {player.name}!\n')
         exit()
+    elif action == 'help':
+        print('\nCommands:')
+        help()
     elif room_name == 'Outside Cave Entrance' and action == 'n':
         player.current_room = player.current_room.n_to
     elif room_name == 'Foyer' and action == 's':
