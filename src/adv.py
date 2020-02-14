@@ -50,7 +50,7 @@ def add_to_inventory(item_name):
     if item_name in player.current_room.items:
         player.inventory.append(item_name)
         player.current_room.items.remove(item_name)
-        print(f'Added {item_name.description} to inventory')
+        item_name.on_take()
     else:
         print('Can\'t find item by that name')
 
@@ -123,7 +123,7 @@ while True:
             add_to_inventory(torch)
         elif split_action[1] == 'key' and key in current_room.items:
             add_to_inventory(key)
-        elif split_action[1] == 'torch' and torch in current_room.items:
+        elif split_action[1] == 'gold' and gold in current_room.items:
             add_to_inventory(gold)
         else:
             print('Can\'t find item by that name')
